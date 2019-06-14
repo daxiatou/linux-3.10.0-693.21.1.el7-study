@@ -456,7 +456,7 @@ void __init native_pagetable_init(void)
 	pud_t *pud;
 	pmd_t *pmd;
 	pte_t *pte;
-        printk(KERN_DEBUG "huangxun1-native_pagetable_init \n");//adfasdfsadf
+        printk(KERN_DEBUG "huangxun1-native_pagetable_init \n");
 	/*
 	 * Remove any mappings which extend past the end of physical
 	 * memory from the boot time page table.
