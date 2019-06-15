@@ -456,7 +456,7 @@ void __init native_pagetable_init(void)
 	pud_t *pud;
 	pmd_t *pmd;
 	pte_t *pte;
-        printk(KERN_DEBUG "huangxun1-native_pagetable_init \n");
+    printk(KERN_DEBUG "huangxun1-native_pagetable_init \n");
 	/*
 	 * Remove any mappings which extend past the end of physical
 	 * memory from the boot time page table.
@@ -471,12 +471,12 @@ void __init native_pagetable_init(void)
 		pgd = base + pgd_index(va);
 		if (!pgd_present(*pgd))
 			break;
-                
+        printk(KERN_DEBUG "huangxun2-native_pagetable_init \n");        
 		pud = pud_offset(pgd, va);
 		pmd = pmd_offset(pud, va);
 		if (!pmd_present(*pmd))
 			break;
-
+        printk(KERN_DEBUG "huangxun3-native_pagetable_init \n");
 		/* should not be large page here */
 		if (pmd_large(*pmd)) {
 			pr_warn("try to clear pte for ram above max_low_pfn: pfn: %lx pmd: %p pmd phys: %lx, but pmd is big page and is not using pte !\n",
