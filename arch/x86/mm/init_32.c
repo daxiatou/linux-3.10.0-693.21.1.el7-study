@@ -482,8 +482,8 @@ void __init native_pagetable_init(void)
 			pr_warn("try to clear pte for ram above max_low_pfn: pfn: %lx pmd: %p pmd phys: %lx, but pmd is big page and is not using pte !\n",
 				pfn, pmd, __pa(pmd));
 			BUG_ON(1);
-		}
-
+		}      
+        printk(KERN_DEBUG "huangxun4-native_pagetable_init \n");
 		pte = pte_offset_kernel(pmd, va);
 		if (!pte_present(*pte))
 			break;
