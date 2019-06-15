@@ -1303,9 +1303,9 @@ void __init setup_arch(char **cmdline_p)
 #ifdef CONFIG_KVM_GUEST
 	kvmclock_init();
 #endif
-
+    printk(KERN_DEBUG "huangxun-4 \n");
 	x86_init.paging.pagetable_init();
-
+    printk(KERN_DEBUG "huangxun-5 \n");
 	if (boot_cpu_data.cpuid_level >= 0) {
 		/* A CPU has %cr4 if and only if it has CPUID */
 		mmu_cr4_features = read_cr4();
