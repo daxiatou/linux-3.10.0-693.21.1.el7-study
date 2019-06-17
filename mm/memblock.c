@@ -1052,13 +1052,13 @@ void __init_memblock __next_mem_pfn_range(int *idx, int nid,
 		*idx = -1;
 		return;
 	}
-
+        /*seems like pfns must be located 'within' the range*/
 	if (out_start_pfn)
-		*out_start_pfn = PFN_UP(r->base);
+		*out_start_pfn = PFN_UP(r->base);//start of the current range, align up
 	if (out_end_pfn)
-		*out_end_pfn = PFN_DOWN(r->base + r->size);
-	if (out_nid)
-		*out_nid = r->nid;
+		*out_end_pfn = PFN_DOWN(r->base + r->size);//end of the current range, align down
+	if (out_nid)//the current literate's nid
+		*out_nid = r->nid;printk(KERN_DEBUG "huangxun r->nid = %d \n",r->nid );//there is only one node in my vmware guest OS, nid=0
 }
 
 unsigned long __init_memblock memblock_next_valid_pfn(unsigned long pfn,
