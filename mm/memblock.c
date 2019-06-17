@@ -1039,16 +1039,16 @@ void __init_memblock __next_mem_pfn_range(int *idx, int nid,
 {
 	struct memblock_type *type = &memblock.memory;
 	struct memblock_region *r;
-
-	while (++*idx < type->cnt) {
+//        printk(KERN_DEBUG "type->cnt = %d \n",(int)(type->cnt) );
+	while (++*idx < type->cnt) {//9
 		r = &type->regions[*idx];
-
-		if (PFN_UP(r->base) >= PFN_DOWN(r->base + r->size))
-			continue;
+                //entirely located in one page, if so, is an illegal range, skip it
+		if (PFN_UP(r->base) >= PFN_DOWN(r->base + r->size)){printk(KERN_DEBUG "huangxun illegal page = %d \n",*idx );
+			continue;}
 		if (nid == MAX_NUMNODES || nid == r->nid)
 			break;
 	}
-	if (*idx >= type->cnt) {
+	if (*idx >= type->cnt) {//reach the end index, return
 		*idx = -1;
 		return;
 	}

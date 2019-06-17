@@ -169,7 +169,7 @@ void __meminit mminit_validate_memmodel_limits(unsigned long *start_pfn,
 void __init memory_present(int nid, unsigned long start, unsigned long end)
 {
 	unsigned long pfn;
-
+        printk(KERN_DEBUG "%s:%d %s \n",__FILE__,__LINE__,__FUNCTION__);
 	start &= PAGE_SECTION_MASK;
 	mminit_validate_memmodel_limits(&start, &end);
 	for (pfn = start; pfn < end; pfn += PAGES_PER_SECTION) {
