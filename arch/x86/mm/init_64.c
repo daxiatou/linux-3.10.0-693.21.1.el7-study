@@ -626,7 +626,7 @@ void __init paging_init(void)
 {
 	sparse_memory_present_with_active_regions(MAX_NUMNODES);
 	sparse_init();
-    printk(KERN_DEBUG "huangxun1-paging_init-64 \n");
+        printk(KERN_DEBUG "huangxun1-paging_init-64 \n");
 	/*
 	 * clear the default setting with node 0
 	 * note: don't use nodes_clear here, that is really clearing when
