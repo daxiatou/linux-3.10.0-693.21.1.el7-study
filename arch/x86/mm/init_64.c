@@ -1247,7 +1247,7 @@ static int __meminit vmemmap_populate_hugepages(unsigned long start,
 	pgd_t *pgd;
 	pud_t *pud;
 	pmd_t *pmd;
-
+        printk(KERN_DEBUG "huangxun-vmemmap_populate_hugepages \n");
 	for (addr = start; addr < end; addr = next) {
 		next = pmd_addr_end(addr, end);
 
