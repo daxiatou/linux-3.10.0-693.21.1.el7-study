@@ -228,7 +228,7 @@ int __meminit vmemmap_populate_basepages(unsigned long start,
 	pud_t *pud;
 	pmd_t *pmd;
 	pte_t *pte;
-
+        printk(KERN_DEBUG "huangxun-vmemmap_populate_basepages \n");
 	for (; addr < end; addr += PAGE_SIZE) {
 		pgd = vmemmap_pgd_populate(addr, node);
 		if (!pgd)
