@@ -255,8 +255,8 @@ struct page * __meminit sparse_mem_map_populate(unsigned long pnum, int nid)
 	struct page *map;
         printk(KERN_DEBUG "huangxun-sparse_mem_map_populate \n");
 	map = pfn_to_page(pnum * PAGES_PER_SECTION);
-	start = (unsigned long)map;
-	end = (unsigned long)(map + PAGES_PER_SECTION);
+	start = (unsigned long)map;//first page's virtual address, because we have vmemmap
+	end = (unsigned long)(map + PAGES_PER_SECTION);//virtual address of the end of the last page 
 
 	if (vmemmap_populate(start, end, nid))
 		return NULL;
@@ -277,18 +277,18 @@ void __init sparse_mem_maps_populate_node(struct page **map_map,
 	vmemmap_buf_start = __earlyonly_bootmem_alloc(nodeid, size * map_count,
 			 PMD_SIZE, __pa(MAX_DMA_ADDRESS));
 
-	if (vmemmap_buf_start) {
+	if (vmemmap_buf_start) {//cannot understand
 		vmemmap_buf = vmemmap_buf_start;
 		vmemmap_buf_end = vmemmap_buf_start + size * map_count;
 	}
 
-	for (pnum = pnum_begin; pnum < pnum_end; pnum++) {
+	for (pnum = pnum_begin; pnum < pnum_end; pnum++) {//section 0 to section max in one node
 		struct mem_section *ms;
 
 		if (!present_section_nr(pnum))
 			continue;
 
-		map_map[pnum] = sparse_mem_map_populate(pnum, nodeid);
+		map_map[pnum] = sparse_mem_map_populate(pnum, nodeid);//Populate each present section in this node
 		if (map_map[pnum])
 			continue;
 		ms = __nr_to_section(pnum);

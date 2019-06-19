@@ -1248,8 +1248,8 @@ static int __meminit vmemmap_populate_hugepages(unsigned long start,
 	pud_t *pud;
 	pmd_t *pmd;
         printk(KERN_DEBUG "huangxun-vmemmap_populate_hugepages \n");
-	for (addr = start; addr < end; addr = next) {
-		next = pmd_addr_end(addr, end);
+	for (addr = start; addr < end; addr = next) {//iterate each pmd?
+		next = pmd_addr_end(addr, end);//I guest we do not have pmd, so this loop will only run once, need prove
 
 		pgd = vmemmap_pgd_populate(addr, node);
 		if (!pgd)
@@ -1302,14 +1302,14 @@ int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node)
 	struct vmem_altmap *altmap = to_vmem_altmap(start);
 	int err;
 
-	if (cpu_has_pse)
-		err = vmemmap_populate_hugepages(start, end, node, altmap);
+	if (cpu_has_pse)//4M page
+		err = vmemmap_populate_hugepages(start, end, node, altmap);//we go here
 	else if (altmap) {
 		pr_err_once("%s: no cpu support for altmap allocations\n",
 				__func__);
 		err = -ENOMEM;
 	} else
-		err = vmemmap_populate_basepages(start, end, node);
+		err = vmemmap_populate_basepages(start, end, node);//we though we should go here, but in fact it is not so
 	if (!err)
 		sync_global_pgds(start, end - 1, 0);
 	return err;
