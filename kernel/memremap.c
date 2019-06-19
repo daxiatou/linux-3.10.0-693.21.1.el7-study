@@ -452,7 +452,8 @@ struct vmem_altmap *to_vmem_altmap(unsigned long memmap_start)
 	rcu_read_lock();
 	pgmap = find_dev_pagemap(__pfn_to_phys(page_to_pfn(page)));
 	rcu_read_unlock();
-
+        if(pgmap){printk(KERN_DEBUG "huangxun-pgmap not empty \n");}
+        else{printk(KERN_DEBUG "huangxun-pgmap empty \n");}       
 	return pgmap ? pgmap->altmap : NULL;
 }
 #endif /* CONFIG_SPARSEMEM_VMEMMAP */
