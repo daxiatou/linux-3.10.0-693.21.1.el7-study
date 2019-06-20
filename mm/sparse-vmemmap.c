@@ -212,7 +212,7 @@ pgd_t * __meminit vmemmap_pgd_populate(unsigned long addr, int node)
 {
 	pgd_t *pgd = pgd_offset_k(addr);
 	if (pgd_none(*pgd)) {
-		void *p = vmemmap_alloc_block(PAGE_SIZE, node);
+		void *p = vmemmap_alloc_block(PAGE_SIZE, node);printk(KERN_DEBUG "huangxun-no-pgd \n");
 		if (!p)
 			return NULL;
 		pgd_populate(&init_mm, pgd, p);

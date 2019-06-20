@@ -1248,8 +1248,8 @@ static int __meminit vmemmap_populate_hugepages(unsigned long start,
 	pud_t *pud;
 	pmd_t *pmd;
         printk(KERN_DEBUG "huangxun-vmemmap_populate_hugepages \n");
-	for (addr = start; addr < end; addr = next) {//iterate each pmd?
-		next = pmd_addr_end(addr, end);//I guest we do not have pmd, so this loop will only run once, need prove
+	for (addr = start; addr < end; addr = next) {//iterate ignoring each pmd
+		next = pmd_addr_end(addr, end);//I guest we do not have pmd, jump across one pmd
 
 		pgd = vmemmap_pgd_populate(addr, node);
 		if (!pgd)
