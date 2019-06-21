@@ -1262,7 +1262,7 @@ static int __meminit vmemmap_populate_hugepages(unsigned long start,
 		pmd = pmd_offset(pud, addr);
 		if (pmd_none(*pmd)) {
 			void *p;
-
+                        printk(KERN_DEBUG "huangxun-no-pmd-entry-hugepages \n");
 			p = __vmemmap_alloc_block_buf(PMD_SIZE, node, altmap);
 			if (p) {
 				pte_t entry;
