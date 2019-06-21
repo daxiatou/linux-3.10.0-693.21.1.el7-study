@@ -53,7 +53,7 @@ void * __meminit vmemmap_alloc_block(unsigned long size, int node)
 	/* If the main allocator is up use that, fallback to bootmem. */
 	if (slab_is_available()) {
 		struct page *page;
-
+                printk(KERN_DEBUG "huangxun-slab_is_available \n");
 		if (node_state(node, N_HIGH_MEMORY))
 			page = alloc_pages_node(
 				node, GFP_KERNEL | __GFP_ZERO | __GFP_REPEAT,
@@ -65,9 +65,9 @@ void * __meminit vmemmap_alloc_block(unsigned long size, int node)
 		if (page)
 			return page_address(page);
 		return NULL;
-	} else
+	} else{printk(KERN_DEBUG "huangxun-bootmem \n");
 		return __earlyonly_bootmem_alloc(node, size, size,
-				__pa(MAX_DMA_ADDRESS));
+				__pa(MAX_DMA_ADDRESS));}
 }
 
 /* need to make sure size is all the same during early stage */
@@ -188,7 +188,7 @@ pmd_t * __meminit vmemmap_pmd_populate(pud_t *pud, unsigned long addr, int node)
 {
 	pmd_t *pmd = pmd_offset(pud, addr);
 	if (pmd_none(*pmd)) {
-		void *p = vmemmap_alloc_block(PAGE_SIZE, node);
+		void *p = vmemmap_alloc_block(PAGE_SIZE, node);printk(KERN_DEBUG "huangxun-no-pmd-entry \n");
 		if (!p)
 			return NULL;
 		pmd_populate_kernel(&init_mm, pmd, p);
@@ -200,7 +200,7 @@ pud_t * __meminit vmemmap_pud_populate(pgd_t *pgd, unsigned long addr, int node)
 {
 	pud_t *pud = pud_offset(pgd, addr);
 	if (pud_none(*pud)) {
-		void *p = vmemmap_alloc_block(PAGE_SIZE, node);printk(KERN_DEBUG "huangxun-no-pud \n");
+		void *p = vmemmap_alloc_block(PAGE_SIZE, node);printk(KERN_DEBUG "huangxun-no-pud-entry \n");
 		if (!p)
 			return NULL;
 		pud_populate(&init_mm, pud, p);
@@ -212,7 +212,7 @@ pgd_t * __meminit vmemmap_pgd_populate(unsigned long addr, int node)
 {
 	pgd_t *pgd = pgd_offset_k(addr);
 	if (pgd_none(*pgd)) {
-		void *p = vmemmap_alloc_block(PAGE_SIZE, node);printk(KERN_DEBUG "huangxun-no-pgd \n");
+		void *p = vmemmap_alloc_block(PAGE_SIZE, node);printk(KERN_DEBUG "huangxun-no-pgd-entry \n");
 		if (!p)
 			return NULL;
 		pgd_populate(&init_mm, pgd, p);
