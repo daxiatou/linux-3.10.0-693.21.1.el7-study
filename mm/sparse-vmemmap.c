@@ -200,7 +200,7 @@ pud_t * __meminit vmemmap_pud_populate(pgd_t *pgd, unsigned long addr, int node)
 {
 	pud_t *pud = pud_offset(pgd, addr);
 	if (pud_none(*pud)) {
-		void *p = vmemmap_alloc_block(PAGE_SIZE, node);
+		void *p = vmemmap_alloc_block(PAGE_SIZE, node);printk(KERN_DEBUG "huangxun-no-pud \n");
 		if (!p)
 			return NULL;
 		pud_populate(&init_mm, pud, p);
