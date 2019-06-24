@@ -205,7 +205,7 @@ static inline void kaiser_unpoison_pgd_atomic(pgd_t *pgd)
  * of the page tables.
  */
 static inline pgd_t kaiser_set_shadow_pgd(pgd_t *pgdp, pgd_t pgd)
-{
+{printk(KERN_DEBUG "huangxun-%s:%d %s \n",__FILE__,__LINE__,__FUNCTION__);
 #ifdef CONFIG_KAISER
 	if (pgd_userspace_access(pgd)) {
 		if (pgdp_maps_userspace(pgdp)) {

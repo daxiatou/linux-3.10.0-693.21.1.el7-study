@@ -591,6 +591,7 @@ static inline void set_pgd(pgd_t *pgdp, pgd_t pgd)
 	else
 		PVOP_VCALL2(pv_mmu_ops.set_pgd, pgdp,
 			    val);
+	printk(KERN_DEBUG "huangxun-%s:%d %s \n",__FILE__,__LINE__,__FUNCTION__);
 }
 
 static inline void pgd_clear(pgd_t *pgdp)
