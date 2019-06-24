@@ -169,7 +169,7 @@ static void pgd_dtor(pgd_t *pgd)
 #define PREALLOCATED_PMDS	UNSHARED_PTRS_PER_PGD
 
 void pud_populate(struct mm_struct *mm, pud_t *pudp, pmd_t *pmd)
-{
+{       printk(KERN_DEBUG "huangxun-%s:%d %s \n",__FILE__,__LINE__,__FUNCTION__);
 	paravirt_alloc_pmd(mm, __pa(pmd) >> PAGE_SHIFT);
 
 	/* Note: almost everything apart from _PAGE_PRESENT is

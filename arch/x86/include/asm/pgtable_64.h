@@ -104,7 +104,7 @@ static inline pmd_t native_pmdp_get_and_clear(pmd_t *xp)
 
 static inline void native_set_pud(pud_t *pudp, pud_t pud)
 {
-	mm_track_pud(pudp);
+	mm_track_pud(pudp);printk(KERN_DEBUG "huangxun-native_set_pud \n");
 	*pudp = pud;
 }
 

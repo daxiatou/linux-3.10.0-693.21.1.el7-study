@@ -110,16 +110,18 @@ static inline void __pmd_free_tlb(struct mmu_gather *tlb, pmd_t *pmd,
 extern void pud_populate(struct mm_struct *mm, pud_t *pudp, pmd_t *pmd);
 #else	/* !CONFIG_X86_PAE */
 static inline void pud_populate(struct mm_struct *mm, pud_t *pud, pmd_t *pmd)
-{
+{       
 	paravirt_alloc_pmd(mm, __pa(pmd) >> PAGE_SHIFT);
+        printk(KERN_DEBUG "huangxun-%s:%d %s \n",__FILE__,__LINE__,__FUNCTION__);
 	set_pud(pud, __pud(_PAGE_TABLE | __pa(pmd)));
 }
 #endif	/* CONFIG_X86_PAE */
 
 #if PAGETABLE_LEVELS > 3
 static inline void pgd_populate(struct mm_struct *mm, pgd_t *pgd, pud_t *pud)
-{
+{       
 	paravirt_alloc_pud(mm, __pa(pud) >> PAGE_SHIFT);
+        printk(KERN_DEBUG "huangxun-%s:%d %s \n",__FILE__,__LINE__,__FUNCTION__);
 	set_pgd(pgd, __pgd(_PAGE_TABLE | __pa(pud)));
 }
 
