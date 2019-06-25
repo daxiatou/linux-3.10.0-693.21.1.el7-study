@@ -104,7 +104,7 @@ static inline pmd_t native_pmdp_get_and_clear(pmd_t *xp)
 
 static inline void native_set_pud(pud_t *pudp, pud_t pud)
 {
-	mm_track_pud(pudp);printk(KERN_DEBUG "huangxun-native_set_pud \n");
+	mm_track_pud(pudp);//printk(KERN_DEBUG "huangxun-native_set_pud \n");
 	*pudp = pud;
 }
 
@@ -205,9 +205,9 @@ static inline void kaiser_unpoison_pgd_atomic(pgd_t *pgd)
  * of the page tables.
  */
 static inline pgd_t kaiser_set_shadow_pgd(pgd_t *pgdp, pgd_t pgd)
-{printk(KERN_DEBUG "huangxun-%s:%d %s \n",__FILE__,__LINE__,__FUNCTION__);
+{//printk(KERN_DEBUG "huangxun-%s:%d %s \n",__FILE__,__LINE__,__FUNCTION__);
 #ifdef CONFIG_KAISER
-	if (pgd_userspace_access(pgd)) {
+	if (pgd_userspace_access(pgd)) {//pgd is in fact a PGD entry
 		if (pgdp_maps_userspace(pgdp)) {
 			VM_WARN_ON_ONCE(!is_kaiser_pgd(pgdp));
 			/*

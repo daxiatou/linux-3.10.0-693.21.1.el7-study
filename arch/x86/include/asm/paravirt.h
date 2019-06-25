@@ -360,7 +360,7 @@ static inline void paravirt_release_pmd(unsigned long pfn)
 
 static inline void paravirt_alloc_pud(struct mm_struct *mm, unsigned long pfn)
 {
-	PVOP_VCALL2(pv_mmu_ops.alloc_pud, mm, pfn);printk(KERN_DEBUG "huangxun-paravirt_alloc_pud \n");
+	PVOP_VCALL2(pv_mmu_ops.alloc_pud, mm, pfn);//printk(KERN_DEBUG "huangxun-paravirt_alloc_pud \n");
 }
 static inline void paravirt_release_pud(unsigned long pfn)
 {
