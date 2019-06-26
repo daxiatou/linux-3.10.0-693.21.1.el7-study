@@ -209,12 +209,13 @@ static inline pgd_t kaiser_set_shadow_pgd(pgd_t *pgdp, pgd_t pgd)
 #ifdef CONFIG_KAISER
 	if (pgd_userspace_access(pgd)) {//pgdp is in fact a PGD entry, pgd is addr of PUD
 		if (pgdp_maps_userspace(pgdp)) {
+                        printk_once(KERN_DEBUG "huangxun1-%s:%d %s \n",__FILE__,__LINE__,__FUNCTION__);
 			VM_WARN_ON_ONCE(!is_kaiser_pgd(pgdp));
 			/*
 			 * The user/shadow page tables get the full
 			 * PGD, accessible from userspace:
 			 */
-			kernel_to_shadow_pgdp(pgdp)->pgd = pgd.pgd;
+			kernel_to_shadow_pgdp(pgdp)->pgd = pgd.pgd;//userspace
 			/*
 			 * For the copy of the pgd that the kernel
 			 * uses, make it unusable to userspace.  This
@@ -231,6 +232,7 @@ static inline pgd_t kaiser_set_shadow_pgd(pgd_t *pgdp, pgd_t pgd)
 		 * presumably populated the shadow.  We must now
 		 * clear the shadow PGD entry.
 		 */
+		 printk_once(KERN_DEBUG "huangxun2-%s:%d %s \n",__FILE__,__LINE__,__FUNCTION__);
 		if (pgdp_maps_userspace(pgdp)) {
 			VM_WARN_ON_ONCE(!is_kaiser_pgd(pgdp));
 			kernel_to_shadow_pgdp(pgdp)->pgd = pgd.pgd;
@@ -250,6 +252,7 @@ static inline pgd_t kaiser_set_shadow_pgd(pgd_t *pgdp, pgd_t pgd)
 		 * pre-populated so this should never happen after
 		 * boot.
 		 */
+		 printk_once(KERN_DEBUG "huangxun3-%s:%d %s \n",__FILE__,__LINE__,__FUNCTION__);
 		VM_WARN_ON_ONCE(system_state == SYSTEM_RUNNING &&
 				is_kaiser_pgd(pgdp));
 	}
