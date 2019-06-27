@@ -25,10 +25,10 @@ static int detect_memory_e820(void)
 	static struct e820entry buf; /* static so it is zeroed */
 
 	initregs(&ireg);
-	ireg.ax  = 0xe820;
-	ireg.cx  = sizeof buf;
-	ireg.edx = SMAP;
-	ireg.di  = (size_t)&buf;
+	ireg.ax  = 0xe820;//indicate this is e820
+	ireg.cx  = sizeof buf;//the buffer size, type is e820entry
+	ireg.edx = SMAP;//just a string which is stored in &oreg each loop indicate current loop is a success
+	ireg.di  = (size_t)&buf;//the address of buffer in which e820 info is stored during each "do-while" loop
 
 	/*
 	 * Note: at least one BIOS is known which assumes that the
