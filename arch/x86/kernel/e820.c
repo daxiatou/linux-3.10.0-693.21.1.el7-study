@@ -41,7 +41,7 @@
  */
 struct e820map e820;
 struct e820map e820_saved;
-
+struct e820map e820_huangxun;
 /* For PCI or other memory-mapped resources */
 unsigned long pci_mem_start = 0xaeedbabe;
 #ifdef CONFIG_PCI
@@ -130,6 +130,12 @@ void __init e820_add_region(u64 start, u64 size, int type)
 	__e820_add_region(&e820, start, size, type);
 }
 
+void __init e820_add_region_huangxun(u64 start, u64 size, int type)
+{
+	__e820_add_region(&e820_huangxun, start, size, type);
+}
+
+
 static void __init e820_print_type(u32 type)
 {
 	switch (type) {
@@ -169,6 +175,19 @@ void __init e820_print_map(char *who)
 		       (unsigned long long)
 		       (e820.map[i].addr + e820.map[i].size - 1));
 		e820_print_type(e820.map[i].type);
+		printk(KERN_CONT "\n");
+	}
+}
+void __init e820_print_map_huangxun(char *who)
+{
+	int i;
+
+	for (i = 0; i < e820_huangxun.nr_map; i++) {
+		printk(KERN_INFO "%s: [mem %#018Lx-%#018Lx] ", who,
+		       (unsigned long long) e820_huangxun.map[i].addr,
+		       (unsigned long long)
+		       (e820_huangxun.map[i].addr + e820_huangxun.map[i].size - 1));
+		e820_print_type(e820_huangxun.map[i].type);
 		printk(KERN_CONT "\n");
 	}
 }
@@ -402,6 +421,27 @@ static int __init __append_e820_map(struct e820entry *biosmap, int nr_map)
 	return 0;
 }
 
+static int __init __append_e820_map_huangxun(struct e820entry *biosmap, int nr_map)
+{
+	while (nr_map) {
+		u64 start = biosmap->addr;
+		u64 size = biosmap->size;
+		u64 end = start + size;
+		u32 type = biosmap->type;
+
+		/* Overflow in 64 bits? Ignore the memory map. */
+		if (start > end)
+			return -1;
+
+		e820_add_region_huangxun(start, size, type);
+
+		biosmap++;
+		nr_map--;
+	}
+	return 0;
+}
+
+
 /*
  * Copy the BIOS e820 map into a safe place.
  *
@@ -419,6 +459,16 @@ static int __init append_e820_map(struct e820entry *biosmap, int nr_map)
 
 	return __append_e820_map(biosmap, nr_map);
 }
+
+static int __init append_e820_map_huangxun(struct e820entry *biosmap, int nr_map)
+{
+	/* Only one memory region (or negative)? Ignore it */
+	if (nr_map < 2)
+		return -1;
+
+	return __append_e820_map_huangxun(biosmap, nr_map);
+}
+
 
 static u64 __init __e820_update_range(struct e820map *e820x, u64 start,
 					u64 size, unsigned old_type,
@@ -1062,6 +1112,8 @@ char *__init default_machine_specific_memory_setup(void)
 	 * the next section from 1mb->appropriate_mem_k
 	 */
 	new_nr = boot_params.e820_entries;
+        append_e820_map_huangxun(boot_params.e820_map, boot_params.e820_entries);
+        e820_print_map_huangxun("huangxun");
 	sanitize_e820_map(boot_params.e820_map,
 			ARRAY_SIZE(boot_params.e820_map),
 			&new_nr);
@@ -1092,7 +1144,7 @@ char *__init default_machine_specific_memory_setup(void)
 void __init setup_memory_map(void)
 {
 	char *who;
-        e820_print_map("huangxun");
+        e820_print_map("huangxun");//cannot print here, nothing happens
 	who = x86_init.resources.memory_setup();
 	memcpy(&e820_saved, &e820, sizeof(struct e820map));
 	printk(KERN_INFO "e820: BIOS-provided physical RAM map:\n");
