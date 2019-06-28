@@ -1092,7 +1092,7 @@ char *__init default_machine_specific_memory_setup(void)
 void __init setup_memory_map(void)
 {
 	char *who;
-
+        e820_print_map("huangxun");
 	who = x86_init.resources.memory_setup();
 	memcpy(&e820_saved, &e820, sizeof(struct e820map));
 	printk(KERN_INFO "e820: BIOS-provided physical RAM map:\n");
