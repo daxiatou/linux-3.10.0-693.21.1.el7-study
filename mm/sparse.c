@@ -391,7 +391,7 @@ void __init sparse_mem_maps_populate_node(struct page **map_map,
 	unsigned long pnum;
 	unsigned long size = sizeof(struct page) * PAGES_PER_SECTION;
         printk(KERN_DEBUG "huangxun-sparse \n");
-	map = alloc_remap(nodeid, size * map_count);
+	map = alloc_remap(nodeid, size * map_count);//one section one map
 	if (map) {
 		for (pnum = pnum_begin; pnum < pnum_end; pnum++) {
 			if (!present_section_nr(pnum))
