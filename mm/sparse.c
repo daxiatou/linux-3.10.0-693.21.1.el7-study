@@ -543,7 +543,7 @@ void __init sparse_init(void)
 	map_map = memblock_virt_alloc(size2, 0);
 	if (!map_map)
 		panic("can not allocate map_map\n");
-
+        printk(KERN_DEBUG "huangxun-size2=%d \n", size2);
 	for (pnum = 0; pnum < NR_MEM_SECTIONS; pnum++) {
 		struct mem_section *ms;
 
