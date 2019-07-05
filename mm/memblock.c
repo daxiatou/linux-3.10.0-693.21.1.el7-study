@@ -1043,7 +1043,7 @@ void __init_memblock __next_mem_pfn_range(int *idx, int nid,
 	while (++*idx < type->cnt) {//9
 		r = &type->regions[*idx];
                 //entirely located in one page, if so, is an illegal range, skip it
-		if (PFN_UP(r->base) >= PFN_DOWN(r->base + r->size)){printk(KERN_DEBUG "huangxun illegal page = %d \n",*idx );
+		if (PFN_UP(r->base) >= PFN_DOWN(r->base + r->size))//{printk(KERN_DEBUG "huangxun illegal page = %d \n",*idx );
 			continue;}
 		if (nid == MAX_NUMNODES || nid == r->nid)
 			break;
@@ -1058,7 +1058,8 @@ void __init_memblock __next_mem_pfn_range(int *idx, int nid,
 	if (out_end_pfn)
 		*out_end_pfn = PFN_DOWN(r->base + r->size);//end of the current range, align down
 	if (out_nid)//the current literate's nid
-		*out_nid = r->nid;printk(KERN_DEBUG "huangxun r->nid = %d \n",r->nid );//there is only one node in my vmware guest OS, nid=0
+		*out_nid = r->nid;
+        //printk(KERN_DEBUG "huangxun r->nid = %d \n",r->nid );//there is only one node in my vmware guest OS, nid=0
 }
 
 unsigned long __init_memblock memblock_next_valid_pfn(unsigned long pfn,
