@@ -1302,7 +1302,7 @@ int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node)
 	struct vmem_altmap *altmap = to_vmem_altmap(start);
 	int err;
 
-	if (cpu_has_pse)//4M page
+	if (cpu_has_pse)//2M page
 		err = vmemmap_populate_hugepages(start, end, node, altmap);//we go here
 	else if (altmap) {
 		pr_err_once("%s: no cpu support for altmap allocations\n",
