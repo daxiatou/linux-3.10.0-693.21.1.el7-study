@@ -956,8 +956,8 @@ void __init_memblock __next_mem_range_rev(u64 *idx, int nid, ulong flags,
 		nid = NUMA_NO_NODE;
 
 	if (*idx == (u64)ULLONG_MAX) {
-		idx_a = type_a->cnt - 1;
-		idx_b = type_b->cnt;
+		idx_a = type_a->cnt - 1;//&memblock.memory
+		idx_b = type_b->cnt;//&memblock.reserved
 	}
 
 	for (; idx_a >= 0; idx_a--) {
